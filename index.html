@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Welcher Kommentar‑Typ bist du? – Schritt‑für‑Schritt‑Quiz</title>
+<style>
+:root{--bg:#0f1115;--card:#151822;--muted:#a9b0c1;--text:#e9edf5;--accent:#7aa2ff;--accent-2:#6ee7b7;--danger:#f87171;--ok:#34d399}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica Neue,Arial,Noto Sans}
+.wrap{max-width:920px;margin:32px auto;padding:0 16px}
+header{text-align:center;margin-bottom:16px}
+h1{font-size:clamp(1.6rem,3vw,2.2rem);margin:0 0 8px}
+p.lead{color:var(--muted);margin:0 auto 12px;max-width:720px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.08));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.progress{display:flex;align-items:center;gap:10px;margin:6px 0 14px}
+.progress .bar{flex:1;height:10px;background:#0e1220;border-radius:999px;border:1px solid rgba(255,255,255,.08);overflow:hidden}
+.progress .bar>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.progress .label{font-variant-numeric:tabular-nums;color:var(--muted);min-width:90px;text-align:right}
+.step{display:none}.step.active{display:block}
+.q{margin:6px 0 12px;font-weight:700}
+.options{display:grid;gap:10px}
+label.opt{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;cursor:pointer;transition:transform .05s ease,border-color .2s ease}
+label.opt:hover{border-color:rgba(122,162,255,.45)}
+.opt input{margin-top:3px}
+.muted{color:var(--muted);font-size:.95rem}
+.controls{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+button{appearance:none;border:1px solid rgba(255,255,255,.1);background:linear-gradient(180deg,#1a2030,#151a28);color:var(--text);padding:12px 16px;border-radius:12px;font-weight:600;cursor:pointer}
+button.primary{background:linear-gradient(180deg,#2a3b76,#1f2a59);border-color:#2a3b76}
+button.ghost{background:transparent}
+button:disabled{opacity:.5;cursor:not-allowed}
+.resultbox{margin-top:8px}
+.pill{display:inline-block;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(122,162,255,.12);border:1px solid rgba(122,162,255,.4);color:var(--accent)}
+details{margin-top:20px}summary{cursor:pointer}
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}
+.type{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px}
+.type h4{margin:0 0 6px}
+footer{margin:28px 0 18px;text-align:center;color:var(--muted);font-size:.9rem}
+.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,monospace;background:#10131a;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:2px 6px}
+.error{color:var(--danger);font-weight:700}.ok{color:var(--ok);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Welcher Kommentar‑Typ bist du?</h1><p class="lead">12 Fragen – jeweils eine pro Seite. Klicke dich durch, am Ende bekommst du dein Ergebnis. Keine Anmeldung, kein Tracking.</p></header>
+<div class="progress"><div class="bar"><i id="bar"></i></div><div class="label"><span id="stepNow">1</span>/<span id="stepTotal">12</span></div></div>
+<form id="quiz" class="card" autocomplete="off">
+<p class="muted">Hinweis: Die Buchstaben sind gemischt. Jeder Klick zählt für einen der acht Typen.</p>
+
+<section class="step active" data-step="1">
+  <div class="q">1) Ein Politiker schreibt auf X über ein neues Gesetz. Deine spontane Reaktion?</div>
+  <div class="options" role="group" aria-labelledby="q1">
+    <label class="opt"><input type="radio" name="q1" value="A" data-type="Empörungsprofi"> <span>„Das ist ein Skandal! Wie können Sie sowas verantworten?“</span></label>
+    <label class="opt"><input type="radio" name="q1" value="B" data-type="Oberlehrer"> <span>„Interessant, aber in Absatz 3 ist ein Formfehler – das schwächt alles.“</span></label>
+    <label class="opt"><input type="radio" name="q1" value="C" data-type="Relativierer"> <span>„Ja, schon – aber ehrlich: alle Seiten sind doch gleich schlimm.“</span></label>
+    <label class="opt"><input type="radio" name="q1" value="D" data-type="Besser-Autor"> <span>„Das Ganze müsste man gründlicher aufarbeiten – Ihre Darstellung ist zu oberflächlich.“</span></label>
+    <label class="opt"><input type="radio" name="q1" value="E" data-type="Aggro-Performer"> <span>„IHR LABERT DOCH NUR MIST!!!“</span></label>
+    <label class="opt"><input type="radio" name="q1" value="F" data-type="Pseudoanalphabet"> <span>„‚Gesetz‘ – das erinnert mich an Naturgesetze, eigentlich passt das ganz gut…“</span></label>
+    <label class="opt"><input type="radio" name="q1" value="G" data-type="Ernstzunehmender Gegner"> <span>„Ich sehe das anders: Ihr Argument hat Logik, aber übersieht die Bürgerrechte.“</span></label>
+    <label class="opt"><input type="radio" name="q1" value="H" data-type="Prinzipienreiter"> <span>„Und wieder redet keiner über das eigentliche Problem: die Energiepolitik!“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="2">
+  <div class="q">2) In einer Kommentarspalte wird die Fußball‑EM diskutiert. Du steigst ein …</div>
+  <div class="options" role="group" aria-labelledby="q2">
+    <label class="opt"><input type="radio" name="q2" value="A" data-type="Oberlehrer"> <span>„Sie schreiben 68. Minute, es war aber die 69. – bitte korrekt bleiben.“</span></label>
+    <label class="opt"><input type="radio" name="q2" value="B" data-type="Prinzipienreiter"> <span>„Dieses Spiel zeigt vor allem, warum wir mehr über Migration reden müssen!“</span></label>
+    <label class="opt"><input type="radio" name="q2" value="C" data-type="Besser-Autor"> <span>„Man müsste das ganze Turnier im Kontext der FIFA‑Reformen darstellen.“</span></label>
+    <label class="opt"><input type="radio" name="q2" value="D" data-type="Aggro-Performer"> <span>„DAS WAR ELFMETER, DU BLINDES HUHN!!!“</span></label>
+    <label class="opt"><input type="radio" name="q2" value="E" data-type="Empörungsprofi"> <span>„Unfassbar, dass die Fans das akzeptieren! Korruption pur!“</span></label>
+    <label class="opt"><input type="radio" name="q2" value="F" data-type="Pseudoanalphabet"> <span>„‚Tor‘ – spannendes Wort, das kommt vom lateinischen ‚porta‘.“</span></label>
+    <label class="opt"><input type="radio" name="q2" value="G" data-type="Ernstzunehmender Gegner"> <span>„Guter Punkt, aber meiner Meinung nach war das ein Trainerfehler.“</span></label>
+    <label class="opt"><input type="radio" name="q2" value="H" data-type="Relativierer"> <span>„Klar, der Schiri hat Fehler gemacht – aber alle Schiris sind so.“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="3">
+  <div class="q">3) Eine Kolumne über TikTok und Jugendschutz. Dein Kommentar?</div>
+  <div class="options" role="group" aria-labelledby="q3">
+    <label class="opt"><input type="radio" name="q3" value="A" data-type="Oberlehrer"> <span>„Ihr Hinweis auf das Mindestalter stimmt nicht, die AGB sehen etwas anderes vor.“</span></label>
+    <label class="opt"><input type="radio" name="q3" value="B" data-type="Prinzipienreiter"> <span>„Das eigentliche Problem ist nicht TikTok, sondern die Politik beim Datenschutz.“</span></label>
+    <label class="opt"><input type="radio" name="q3" value="C" data-type="Besser-Autor"> <span>„Sie hätten die kulturelle Dimension ausführlicher beleuchten müssen.“</span></label>
+    <label class="opt"><input type="radio" name="q3" value="D" data-type="Ernstzunehmender Gegner"> <span>„Ich widerspreche: Verbote helfen nicht, man müsste Medienkompetenz fördern.“</span></label>
+    <label class="opt"><input type="radio" name="q3" value="E" data-type="Empörungsprofi"> <span>„Wie verantwortungslos, Kinder so einer Gefahr auszusetzen!“</span></label>
+    <label class="opt"><input type="radio" name="q3" value="F" data-type="Pseudoanalphabet"> <span>„‚TikTok‘ – das erinnert mich an das Ticken einer Uhr.“</span></label>
+    <label class="opt"><input type="radio" name="q3" value="G" data-type="Relativierer"> <span>„Ja, TikTok ist riskant – aber Fernsehen früher war genauso schlimm.“</span></label>
+    <label class="opt"><input type="radio" name="q3" value="H" data-type="Aggro-Performer"> <span>„DIE ELTERN SIND SCHULD!!!“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="4">
+  <div class="q">4) Jemand lobt eine Rede des Bundeskanzlers. Deine Antwort?</div>
+  <div class="options" role="group" aria-labelledby="q4">
+    <label class="opt"><input type="radio" name="q4" value="A" data-type="Empörungsprofi"> <span>„Eine Zumutung! Wie kann man sowas noch gutheißen?“</span></label>
+    <label class="opt"><input type="radio" name="q4" value="B" data-type="Besser-Autor"> <span>„Diese Rede müsste man systematisch im historischen Vergleich einordnen.“</span></label>
+    <label class="opt"><input type="radio" name="q4" value="C" data-type="Oberlehrer"> <span>„Lob? Aber er hat im zweiten Satz einen Grammatikfehler gemacht.“</span></label>
+    <label class="opt"><input type="radio" name="q4" value="D" data-type="Aggro-Performer"> <span>„ABSOLUTE SCHEINHEILIGKEIT!!!“</span></label>
+    <label class="opt"><input type="radio" name="q4" value="E" data-type="Ernstzunehmender Gegner"> <span>„Ich sehe das anders, die Rede war inhaltlich schwach.“</span></label>
+    <label class="opt"><input type="radio" name="q4" value="F" data-type="Prinzipienreiter"> <span>„Schön und gut, aber wann spricht endlich jemand über Kernkraft?“</span></label>
+    <label class="opt"><input type="radio" name="q4" value="G" data-type="Pseudoanalphabet"> <span>„‚Rede‘ – interessant, das hängt sprachlich mit ‚raten‘ zusammen.“</span></label>
+    <label class="opt"><input type="radio" name="q4" value="H" data-type="Relativierer"> <span>„Ja, die Rede war schlecht – aber alle Politiker reden schlecht.“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="5">
+  <div class="q">5) In einer Online‑Debatte wird ein Fehler eingeräumt. Wie reagierst du?</div>
+  <div class="options" role="group" aria-labelledby="q5">
+    <label class="opt"><input type="radio" name="q5" value="A" data-type="Oberlehrer"> <span>„Gut, aber Sie haben den Fehler nur halb korrigiert.“</span></label>
+    <label class="opt"><input type="radio" name="q5" value="B" data-type="Prinzipienreiter"> <span>„Das lenkt vom eigentlichen Thema ab – nämlich von der Bildungspolitik.“</span></label>
+    <label class="opt"><input type="radio" name="q5" value="C" data-type="Empörungsprofi"> <span>„Aha! Da sieht man mal wieder, wie unseriös Sie arbeiten!“</span></label>
+    <label class="opt"><input type="radio" name="q5" value="D" data-type="Ernstzunehmender Gegner"> <span>„Danke für die Korrektur, jetzt ist die Diskussion fairer.“</span></label>
+    <label class="opt"><input type="radio" name="q5" value="E" data-type="Besser-Autor"> <span>„Ein Fehler ist nur im Kontext einer Gesamtkritik sinnvoll – und die fehlt hier.“</span></label>
+    <label class="opt"><input type="radio" name="q5" value="F" data-type="Pseudoanalphabet"> <span>„Fehler… das erinnert mich an meine Schulzeit.“</span></label>
+    <label class="opt"><input type="radio" name="q5" value="G" data-type="Relativierer"> <span>„Fehler passieren überall – bei anderen Medien noch schlimmer.“</span></label>
+    <label class="opt"><input type="radio" name="q5" value="H" data-type="Aggro-Performer"> <span>„PEINLICH!!!“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="6">
+  <div class="q">6) Jemand postet einen wissenschaftlichen Artikel zur Klimaforschung. Dein Verhalten?</div>
+  <div class="options" role="group" aria-labelledby="q6">
+    <label class="opt"><input type="radio" name="q6" value="A" data-type="Empörungsprofi"> <span>„Unglaublich, dass so eine gefährliche Studie überhaupt veröffentlicht wird!“</span></label>
+    <label class="opt"><input type="radio" name="q6" value="B" data-type="Besser-Autor"> <span>„Um das seriös zu machen, bräuchte man eine komplette Literaturanalyse.“</span></label>
+    <label class="opt"><input type="radio" name="q6" value="C" data-type="Prinzipienreiter"> <span>„Alles schön, aber das wahre Thema ist die Atomkraft.“</span></label>
+    <label class="opt"><input type="radio" name="q6" value="D" data-type="Oberlehrer"> <span>„Ihre Quelle ist von 2018, inzwischen gibt es neuere Daten.“</span></label>
+    <label class="opt"><input type="radio" name="q6" value="E" data-type="Aggro-Performer"> <span>„ALLES NUR PANIKMACHE!!!“</span></label>
+    <label class="opt"><input type="radio" name="q6" value="F" data-type="Pseudoanalphabet"> <span>„Interessant, ‚Klimamodell‘ erinnert mich an Modellautos.“</span></label>
+    <label class="opt"><input type="radio" name="q6" value="G" data-type="Ernstzunehmender Gegner"> <span>„Ich halte die Methodik der Studie für problematisch.“</span></label>
+    <label class="opt"><input type="radio" name="q6" value="H" data-type="Relativierer"> <span>„Natürlich, Modelle sind ungenau – egal in welcher Wissenschaft.“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="7">
+  <div class="q">7) In einer Diskussion über kulturelle Vielfalt wird gefragt, ob Integration funktioniert.</div>
+  <div class="options" role="group" aria-labelledby="q7">
+    <label class="opt"><input type="radio" name="q7" value="A" data-type="Oberlehrer"> <span>„Ihr Statistikbeispiel ist veraltet.“</span></label>
+    <label class="opt"><input type="radio" name="q7" value="B" data-type="Empörungsprofi"> <span>„Empörend, dass Sie die Frage so stellen!“</span></label>
+    <label class="opt"><input type="radio" name="q7" value="C" data-type="Besser-Autor"> <span>„Man müsste den Vergleich mit anderen Ländern ziehen.“</span></label>
+    <label class="opt"><input type="radio" name="q7" value="D" data-type="Prinzipienreiter"> <span>„Das eigentliche Problem ist der Genderwahn!“</span></label>
+    <label class="opt"><input type="radio" name="q7" value="E" data-type="Aggro-Performer"> <span>„Das ist naiv!!!“</span></label>
+    <label class="opt"><input type="radio" name="q7" value="F" data-type="Pseudoanalphabet"> <span>„Integration – spannendes Wort, das kommt von ‚integer‘.“</span></label>
+    <label class="opt"><input type="radio" name="q7" value="G" data-type="Ernstzunehmender Gegner"> <span>„Ich glaube, Integration funktioniert teilweise, aber nicht überall.“</span></label>
+    <label class="opt"><input type="radio" name="q7" value="H" data-type="Relativierer"> <span>„Klar, Probleme gibt’s – aber es ist überall so.“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="8">
+  <div class="q">8) Diskussion über einen Verkehrsunfall mit SUV.</div>
+  <div class="options" role="group" aria-labelledby="q8">
+    <label class="opt"><input type="radio" name="q8" value="A" data-type="Prinzipienreiter"> <span>„SUVs sind nur Symptom – das Problem ist die Energiepolitik.“</span></label>
+    <label class="opt"><input type="radio" name="q8" value="B" data-type="Oberlehrer"> <span>„Sie schreiben ‚Fahrerin‘, es war aber ein Mann.“</span></label>
+    <label class="opt"><input type="radio" name="q8" value="C" data-type="Empörungsprofi"> <span>„Skandalös, dass solche Autos überhaupt zugelassen sind!“</span></label>
+    <label class="opt"><input type="radio" name="q8" value="D" data-type="Besser-Autor"> <span>„Sie hätten das Unfallgeschehen in Relation zur Statistik darstellen müssen.“</span></label>
+    <label class="opt"><input type="radio" name="q8" value="E" data-type="Pseudoanalphabet"> <span>„SUV – das steht für Sport Utility Vehicle.“</span></label>
+    <label class="opt"><input type="radio" name="q8" value="F" data-type="Ernstzunehmender Gegner"> <span>„Die Verantwortung ist unklar, man sollte genauer prüfen.“</span></label>
+    <label class="opt"><input type="radio" name="q8" value="G" data-type="Relativierer"> <span>„Natürlich tragisch – aber auch Fahrräder verursachen Unfälle.“</span></label>
+    <label class="opt"><input type="radio" name="q8" value="H" data-type="Aggro-Performer"> <span>„MÖRDER!!!“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="9">
+  <div class="q">9) Ein anderer Nutzer lobt die Qualität des Journalismus. Deine Reaktion?</div>
+  <div class="options" role="group" aria-labelledby="q9">
+    <label class="opt"><input type="radio" name="q9" value="A" data-type="Oberlehrer"> <span>„Qualität? Aber Sie haben gerade eine falsche Zahl genannt.“</span></label>
+    <label class="opt"><input type="radio" name="q9" value="B" data-type="Empörungsprofi"> <span>„Lob? Völlig blind! Das ist nur Propaganda!“</span></label>
+    <label class="opt"><input type="radio" name="q9" value="C" data-type="Besser-Autor"> <span>„Qualität müsste man definieren – und dann anhand von Kriterien prüfen.“</span></label>
+    <label class="opt"><input type="radio" name="q9" value="D" data-type="Prinzipienreiter"> <span>„Journalismus? Hauptproblem: niemand schreibt mehr über Atomkraft.“</span></label>
+    <label class="opt"><input type="radio" name="q9" value="E" data-type="Pseudoanalphabet"> <span>„Qualität… erinnert mich an ‚Qualia‘ in der Philosophie.“</span></label>
+    <label class="opt"><input type="radio" name="q9" value="F" data-type="Aggro-Performer"> <span>„LÜGENPRESSE!!!“</span></label>
+    <label class="opt"><input type="radio" name="q9" value="G" data-type="Ernstzunehmender Gegner"> <span>„Ich glaube, die Qualität ist gemischt.“</span></label>
+    <label class="opt"><input type="radio" name="q9" value="H" data-type="Relativierer"> <span>„Früher war Journalismus auch nicht besser.“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="10">
+  <div class="q">10) Ein Influencer postet ein Video über Ernährung. Dein Kommentar?</div>
+  <div class="options" role="group" aria-labelledby="q10">
+    <label class="opt"><input type="radio" name="q10" value="A" data-type="Empörungsprofi"> <span>„Wie verantwortungslos, sowas an Jugendliche zu verbreiten!“</span></label>
+    <label class="opt"><input type="radio" name="q10" value="B" data-type="Oberlehrer"> <span>„Ihre Kalorienangabe stimmt nicht.“</span></label>
+    <label class="opt"><input type="radio" name="q10" value="C" data-type="Besser-Autor"> <span>„Ihr Video müsste mit Quellen und Kontrollgruppen arbeiten.“</span></label>
+    <label class="opt"><input type="radio" name="q10" value="D" data-type="Prinzipienreiter"> <span>„Das eigentliche Problem ist die Energiepolitik.“</span></label>
+    <label class="opt"><input type="radio" name="q10" value="E" data-type="Pseudoanalphabet"> <span>„‚Kalorie‘ – wussten Sie, dass das eine physikalische Einheit ist?“</span></label>
+    <label class="opt"><input type="radio" name="q10" value="F" data-type="Aggro-Performer"> <span>„SCHWACHSINN!!!“</span></label>
+    <label class="opt"><input type="radio" name="q10" value="G" data-type="Ernstzunehmender Gegner"> <span>„Ich sehe das anders, Low‑Carb ist nicht für alle geeignet.“</span></label>
+    <label class="opt"><input type="radio" name="q10" value="H" data-type="Relativierer"> <span>„Natürlich, Ernährung ist wichtig – aber Sport genauso.“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="11">
+  <div class="q">11) Ein Kommentator beleidigt dich direkt. Wie reagierst du?</div>
+  <div class="options" role="group" aria-labelledby="q11">
+    <label class="opt"><input type="radio" name="q11" value="A" data-type="Oberlehrer"> <span>„Ihre Beleidigung enthält einen Grammatikfehler.“</span></label>
+    <label class="opt"><input type="radio" name="q11" value="B" data-type="Aggro-Performer"> <span>„Halt die Fresse!!!“</span></label>
+    <label class="opt"><input type="radio" name="q11" value="C" data-type="Prinzipienreiter"> <span>„Sie beleidigen mich – typisch, wenn man keine Argumente mehr hat.“</span></label>
+    <label class="opt"><input type="radio" name="q11" value="D" data-type="Ernstzunehmender Gegner"> <span>„Das ist unhöflich, aber ich gehe trotzdem auf Ihren Punkt ein.“</span></label>
+    <label class="opt"><input type="radio" name="q11" value="E" data-type="Besser-Autor"> <span>„Ihre Beleidigung zeigt, dass man eine breitere Diskursanalyse bräuchte.“</span></label>
+    <label class="opt"><input type="radio" name="q11" value="F" data-type="Empörungsprofi"> <span>„Eine Frechheit! Sie disqualifizieren sich moralisch selbst!“</span></label>
+    <label class="opt"><input type="radio" name="q11" value="G" data-type="Relativierer"> <span>„Beleidigungen gibt’s überall, im Netz wie im echten Leben.“</span></label>
+    <label class="opt"><input type="radio" name="q11" value="H" data-type="Pseudoanalphabet"> <span>„‚Idiot‘ – spannendes Wort, es kommt vom griechischen ‚idiotes‘.“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="12">
+  <div class="q">12) Ganz ehrlich: Warum kommentierst du am liebsten?</div>
+  <div class="options" role="group" aria-labelledby="q12">
+    <label class="opt"><input type="radio" name="q12" value="A" data-type="Oberlehrer"> <span>„Um Fehler aufzudecken.“</span></label>
+    <label class="opt"><input type="radio" name="q12" value="B" data-type="Aggro-Performer"> <span>„Um laut und deutlich Präsenz zu zeigen.“</span></label>
+    <label class="opt"><input type="radio" name="q12" value="C" data-type="Empörungsprofi"> <span>„Um Missstände anzuprangern.“</span></label>
+    <label class="opt"><input type="radio" name="q12" value="D" data-type="Prinzipienreiter"> <span>„Um mein Thema unterzubringen.“</span></label>
+    <label class="opt"><input type="radio" name="q12" value="E" data-type="Pseudoanalphabet"> <span>„Um Wörter, Ideen und Querverbindungen zu spinnen.“</span></label>
+    <label class="opt"><input type="radio" name="q12" value="F" data-type="Relativierer"> <span>„Um Perspektiven zu relativieren.“</span></label>
+    <label class="opt"><input type="radio" name="q12" value="G" data-type="Besser-Autor"> <span>„Um den Text eigentlich selbst zu schreiben.“</span></label>
+    <label class="opt"><input type="radio" name="q12" value="H" data-type="Ernstzunehmender Gegner"> <span>„Um fair zu widersprechen.“</span></label>
+  </div>
+</section>
+
+<section class="step" data-step="result" id="resultStep">
+  <div class="q">Ergebnis</div>
+  <div class="resultbox card" id="result">
+    <div id="resultTitle" style="font-size:1.2rem; font-weight:800; margin-bottom:6px;"></div>
+    <div id="resultDesc" class="muted" style="margin-bottom:10px;"></div>
+    <details><summary>Alle Typen & Kurzbeschreibungen</summary>
+      <div class="types">
+        <div class="type"><h4>Oberlehrer</h4><p>Findet kleine Fehler, fokussiert Form statt Kern.</p></div>
+        <div class="type"><h4>Prinzipienreiter</h4><p>Lenkt jede Debatte aufs Lieblingsthema um.</p></div>
+        <div class="type"><h4>Besser‑Autor</h4><p>Schreibt den Text im Kopf neu, erwartet Vollständigkeit.</p></div>
+        <div class="type"><h4>Ernstzunehmender Gegner</h4><p>Widerspricht fair, liest genau, stärkt die Debatte.</p></div>
+        <div class="type"><h4>Empörungsprofi</h4><p>Setzt auf moralische Wucht statt Logik.</p></div>
+        <div class="type"><h4>Pseudoanalphabet</h4><p>Liest selektiv, argumentiert am Thema vorbei.</p></div>
+        <div class="type"><h4>Relativierer</h4><p>Weicht klare Maßstäbe auf, alles wird „gleich schlimm“.</p></div>
+        <div class="type"><h4>Aggro‑Performer</h4><p>Laut, konfrontativ, Bühne statt Klärung.</p></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<div class="controls">
+  <button type="button" class="ghost" id="btn-prev">Zurück</button>
+  <button type="button" class="primary" id="btn-next">Weiter</button>
+  <button type="button" class="primary" id="btn-finish" style="display:none">Fertig & Ergebnis</button>
+  <button type="reset" id="btn-reset" style="margin-left:auto">Alles zurücksetzen</button>
+</div>
+
+<div id="msg" class="muted" style="margin-top:10px;"></div>
+</form>
+
+<footer>
+  <p>Privat & ohne Tracking. Läuft komplett im Browser. <span class="kbd">Strg/Cmd + S</span>, um die Seite lokal zu speichern.</p>
+  <p class="muted">Mit Dank an die Typologie von <a href="https://scienceandsense.de/2025/08/21/jenseits-des-durchschnittstrolls-eine-erweiterte-typologie-der-kommentarspalten-bewohner/" target="_blank" rel="noopener">Science & Sense</a>.</p>
+</footer>
+</div>
+
+<script>
+const stepTotal=12;
+const bar=document.getElementById('bar');
+const stepNow=document.getElementById('stepNow');
+const stepTotalEl=document.getElementById('stepTotal'); stepTotalEl.textContent=stepTotal;
+const steps=Array.from(document.querySelectorAll('.step'));
+const btnPrev=document.getElementById('btn-prev');
+const btnNext=document.getElementById('btn-next');
+const btnFinish=document.getElementById('btn-finish');
+const btnReset=document.getElementById('btn-reset');
+const msg=document.getElementById('msg');
+const resBox=document.getElementById('result');
+const resStep=document.getElementById('resultStep');
+const resTitle=document.getElementById('resultTitle');
+const resDesc=document.getElementById('resultDesc');
+
+const DESCRIPTIONS={
+ 'Oberlehrer':'Du findest lieber den formalen Fehler als die große Linie – nützlich, wenn es um Präzision geht, hinderlich, wenn es um das Wesentliche geht.',
+ 'Prinzipienreiter':'Du bringst dein Herzensthema zuverlässig ins Spiel. Stark in deinem Feld, aber manchmal am Thema vorbei.',
+ 'Besser-Autor':'In dir steckt ein Redakteur. Du willst Dinge gründlich und vollständig – sogar, wenn es „nur“ eine Kolumne ist.',
+ 'Ernstzunehmender Gegner':'Du bist der Gegenpol, den jede Debatte braucht: fair, klar, argumentativ.',
+ 'Empörungsprofi':'Du mobilisierst über Moral und Gefühl. Das wirkt – aber Logik leidet schnell darunter.',
+ 'Pseudoanalphabet':'Assoziativ und sprachverliebt, aber oft neben der Sache. Netter Stil, schwache Passung.',
+ 'Relativierer':'Du dämpfst Extreme und weichst Maßstäbe auf. Manchmal hilfreich, manchmal verwässernd.',
+ 'Aggro-Performer':'Laut, direkt, konfrontativ. Bringt Energie – oder Lärm. Dosierung zählt.'
+};
+
+let current=1;
+function showStep(n){
+  steps.forEach(s=>s.classList.remove('active'));
+  const step=document.querySelector(`.step[data-step="${n}"]`);
+  if(step) step.classList.add('active');
+  btnPrev.disabled=(n===1);
+  btnNext.style.display=(n<stepTotal)?'inline-block':'none';
+  btnFinish.style.display=(n===stepTotal)?'inline-block':'none';
+  stepNow.textContent=n;
+  const pct=Math.round((n-1)/stepTotal*100);
+  bar.style.width=pct+'%';
+  msg.textContent='';
+  resBox.style.display='none';
+}
+function hasAnswer(n){ return !!document.querySelector(`input[name="q${n}"]:checked`); }
+function counts(){
+  const tally={'Oberlehrer':0,'Prinzipienreiter':0,'Besser-Autor':0,'Ernstzunehmender Gegner':0,'Empörungsprofi':0,'Pseudoanalphabet':0,'Relativierer':0,'Aggro-Performer':0};
+  for(let i=1;i<=stepTotal;i++){ const input=document.querySelector(`input[name="q${i}"]:checked`); const type=input?.dataset.type; if(type && tally[type]!==undefined) tally[type]++; }
+  return tally;
+}
+function evaluate(){
+  for(let i=1;i<=stepTotal;i++){ if(!hasAnswer(i)){ current=i; showStep(current); msg.innerHTML=`<span class="error">Bitte beantworte diese Frage, bevor du fortfährst.</span>`; return; } }
+  const tally=counts(); const max=Math.max(...Object.values(tally)); const winners=Object.keys(tally).filter(k=>tally[k]===max);
+  const title=winners.length===1?`Dein Ergebnis: <span class="pill">${winners[0]}</span>`:`Deine Top‑Typen: `+winners.map(w=>`<span class="pill">${w}</span>`).join(' ');
+  const desc=winners.map(w=>`<strong>${w}:</strong> ${DESCRIPTIONS[w]}`).join('<br/><br/>');
+  resTitle.innerHTML=title; resDesc.innerHTML=desc+`<div class="muted" style="margin-top:8px">(Punkte: ${Object.entries(tally).map(([k,v])=>`${k}: ${v}`).join(' · ')})</div>`;
+  steps.forEach(s=>s.classList.remove('active')); resStep.classList.add('active'); bar.style.width='100%'; stepNow.textContent=stepTotal;
+  msg.innerHTML=`<span class="ok">Fertig! Hier ist dein Ergebnis.</span>`; resBox.style.display='block'; resStep.scrollIntoView({behavior:'smooth',block:'start'});
+}
+btnPrev.addEventListener('click',()=>{ if(current>1){ current--; showStep(current); } });
+btnNext.addEventListener('click',()=>{ if(!hasAnswer(current)){ msg.innerHTML=`<span class="error">Bitte erst eine Option wählen.</span>`; return; } if(current<stepTotal){ current++; showStep(current); } });
+btnFinish.addEventListener('click',evaluate);
+btnReset.addEventListener('click',()=>{ current=1; showStep(current); resTitle.textContent=''; resDesc.textContent=''; });
+</script>
+</body></html>
